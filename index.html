@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI 도감 · 분야별 필수 AI 서비스</title>
+  <meta name="description" content="펭도리빵과 함께 보는 분야별 추천 AI 서비스 도감" />
+  <link rel="icon" href="favicon.ico" />
+  <!-- 글꼴: font 폴더의 강원교육모두체 (Pretendard 는 로컬 글꼴이 없을 때 대체용) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/sections.css" />
+</head>
+<body>
+
+  <!-- ===== 상단 헤더 ===== -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="sidebar-toggle" id="sidebarToggle" aria-label="사이드바 열기" aria-controls="sidebar" aria-expanded="false">
+        <span class="bars"><span></span><span></span><span></span></span>
+      </button>
+      <a class="logo" href="#top" aria-label="AI 도감 맨 위로">
+        <span class="pokeball" aria-hidden="true"></span>
+        <span>AI 도감</span>
+      </a>
+    </div>
+
+    <nav class="top-links">
+      <a href="#types">타입별</a>
+      <a href="#about">펭도리빵</a>
+      <a href="#services">도감 목록</a>
+      <button type="button" id="navGuide">가이드</button>
+    </nav>
+
+    <div class="topbar-right">
+      <div class="search" id="searchWrap">
+        <span class="icon">🔍</span>
+        <input type="search" id="searchInput" placeholder="AI 검색" autocomplete="off" />
+        <button class="clear" id="clearBtn" aria-label="검색어 지우기">✕</button>
+      </div>
+      <button class="bgm-btn" id="bgmBtn" type="button" aria-pressed="false" aria-label="배경음악 켜기">
+        <span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="text">BGM OFF</span>
+      </button>
+      <button class="top-btn" id="toggleAll" aria-label="모든 카드 펼치기">
+        <span class="ico">📖</span><span class="text">모두 펼치기</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===== 여정 진행 바: 스크롤한 만큼 몬스터볼이 앞으로 ===== -->
+  <div class="journey" aria-hidden="true">
+    <div class="journey-track"><div class="journey-fill" id="journeyFill"></div></div>
+    <span class="pokeball journey-ball" id="journeyBall"></span>
+  </div>
+
+  <!-- ===== 사이드바 ===== -->
+  <aside class="sidebar" id="sidebar" aria-label="사이드바">
+    <nav class="side-section">
+      <h3>타입</h3>
+      <ul class="side-list" id="sideCategories"></ul>
+    </nav>
+
+    <nav class="side-section">
+      <h3>도감 바로가기</h3>
+      <ul class="side-list" id="sideServices"></ul>
+    </nav>
+
+    <button class="side-guide" id="sideGuide">
+      <span class="pokeball" aria-hidden="true"></span>
+      <span><strong>펭도리빵 가이드</strong>사용법 물어보기</span>
+    </button>
+  </aside>
+  <div class="backdrop" id="backdrop"></div>
+
+  <div class="content" id="top">
+
+    <!-- ===== 첫 화면: 거대한 제목 + 제목 속 펭도리빵 ===== -->
+    <section class="hero" id="hero">
+      <div class="hero-ball" aria-hidden="true"></div>
+
+      <h1 class="hero-title">
+        <span class="line">
+          <span class="w"><span>BYE BYE</span></span>
+          <span class="w it"><span>막막한 AI…</span></span>
+        </span>
+        <span class="line">
+          <span class="w it"><span>LET'S GO</span></span>
+          <span class="media" aria-hidden="true">
+            <span class="media-inner"><img src="img/mascot-scene.jpg" alt="" /></span>
+          </span>
+          <span class="w logo-word"><span>AI 모험</span></span>
+        </span>
+      </h1>
+
+      <p class="hero-caption"><span class="route-tag">START · 태초마을</span>트레이너가 포켓몬을 찾아 떠나듯, 나에게 맞는 AI를 찾아 떠나요. <strong id="heroCount">0</strong>개의 AI가 기다리고 있어요.</p>
+      <a class="hero-down" href="#types" aria-label="아래로">↓</a>
+    </section>
+
+    <!-- ===== 흐르는 띠 ===== -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track" id="marquee"></div>
+    </div>
+
+    <!-- ===== 타입별 AI ===== -->
+    <section class="types" id="types">
+      <div class="container">
+        <div class="big-head">
+          <span class="route-tag">ROUTE 01 · 타입 고르기</span>
+          <h2><span>TYPES</span> <em>타입별 AI</em></h2>
+          <p>모험의 첫걸음! 원하는 타입을 고르면 그 분야의 AI만 모아서 보여줘요.</p>
+        </div>
+        <div class="type-grid" id="typeGrid"></div>
+      </div>
+    </section>
+
+    <!-- ===== 펭도리빵 소개 ===== -->
+    <section class="about" id="about">
+      <div class="container about-inner">
+        <div class="about-text">
+          <span class="route-tag">ROUTE 02 · 안내원 만나기</span>
+          <h2>어려운 AI 고르기,<br /><em>펭도리빵</em>이 도와줄게!</h2>
+          <p>조원들이 직접 써보고 정리한 AI 서비스의 요금, 장점, 단점을 포켓몬 도감처럼 한눈에 볼 수 있어요. 궁금한 건 언제든 펭도리빵에게 물어보세요.</p>
+          <div class="about-actions">
+            <a class="btn btn-red" href="#services">도감 열기</a>
+            <button class="btn" type="button" id="aboutGuide">가이드 보기</button>
+          </div>
+        </div>
+
+        <div class="about-stage">
+          <div class="stage-ground" aria-hidden="true"></div>
+          <img class="about-mascot" src="img/mascot.png" alt="마스코트 펭도리빵" />
+          <div class="game-box">
+            <p id="aboutLine">야생의 AI 서비스가 나타났다!</p>
+            <span class="game-arrow">▼</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 도감 목록 ===== -->
+    <section class="services" id="services">
+      <div class="container">
+        <div class="big-head big-head-row">
+          <div>
+            <span class="route-tag">ROUTE 03 · AI 도감 채우기</span>
+            <h2><span>AI 도감</span> <em>ALL SERVICES</em></h2>
+          </div>
+          <p class="result-info" id="resultInfo"></p>
+        </div>
+        <div class="filters" id="filters" role="tablist" aria-label="카테고리 필터"></div>
+        <div class="grid" id="grid" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- ===== 마무리 배너 ===== -->
+    <section class="cta">
+      <div class="container cta-inner">
+        <div>
+          <span class="route-tag light">GOAL · 챔피언 로드</span>
+          <h2>모든 AI를<br /><em>잡아보자!</em></h2>
+        </div>
+        <div class="cta-team" aria-hidden="true">
+          <img src="img/pokemon/1.png" alt="" />
+          <img src="img/pokemon/4.png" alt="" />
+          <img src="img/pokemon/7.png" alt="" />
+          <img src="img/pokemon/25.png" alt="" />
+        </div>
+        <div class="cta-actions">
+          <button class="btn btn-yellow" type="button" id="ctaSearch">검색하기</button>
+          <button class="btn btn-ghost" type="button" id="ctaGuide">가이드 보기</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-cols">
+        <div>
+          <h4>둘러보기</h4>
+          <a href="#top">처음으로</a>
+          <a href="#types">타입별 AI</a>
+          <a href="#services">도감 목록</a>
+        </div>
+        <div>
+          <h4>타입</h4>
+          <span>⚡ 전기 · 바이브 코딩</span>
+          <span>🔮 에스퍼 · 웹/UI/UX</span>
+          <span>🌿 풀 · 글쓰기/리서치</span>
+        </div>
+        <div>
+          <h4>&nbsp;</h4>
+          <span>🔥 불꽃 · 영상</span>
+          <span>🎀 페어리 · 음성/음악</span>
+          <span>💧 물 · 시각화/PPT</span>
+        </div>
+      </div>
+      <p class="footer-giant">AI 도감</p>
+      <div class="footer-copy"><span>© 2026 TEAM 펭도리빵 · 시각화/PPT 파트 강현서</span><span>분야별 필수 AI 서비스 리스트</span></div>
+    </div>
+  </footer>
+
+  <!-- ===== 펭도리빵 가이드 (게임 대화창) ===== -->
+  <div class="guide" id="guide" role="dialog" aria-label="펭도리빵 가이드" aria-hidden="true">
+    <span class="pokeball guide-ball" aria-hidden="true"></span>
+    <div class="guide-body">
+      <span class="guide-name">펭도리빵</span>
+      <p class="guide-text" id="guideText"></p>
+      <div class="guide-foot">
+        <div class="guide-dots" id="guideDots"></div>
+        <button class="guide-next" id="guideNext">다음 ▶</button>
+      </div>
+    </div>
+    <button class="guide-close" id="guideClose" aria-label="가이드 닫기">✕</button>
+  </div>
+
+  <!-- 몬스터볼 버튼 -->
+  <button class="ball-fab" id="ballFab" aria-label="펭도리빵 가이드 열기">
+    <span class="pokeball big" aria-hidden="true"></span>
+  </button>
+
+  <!-- 데이터 → 목록 기능 → 첫 화면/가이드 순서로 불러오기 -->
+  <script src="js/services.js"></script>
+  <!-- 팀원별 데이터 (분야마다 한 파일, 불러온 순서대로 목록에 표시) -->
+  <script src="js/data/visual-ppt.js"></script>
+  <script src="js/data/vibe-coding.js"></script>
+  <script src="js/data/web-ui-ux.js"></script>
+  <script src="js/data/writing-research.js"></script>
+  <script src="js/data/video.js"></script>
+  <script src="js/data/voice-music.js"></script>
+  <script src="js/script.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/bgm.js"></script>
+</body>
+</html>

@@ -1,0 +1,476 @@
+/* =========================================================
+   섹션별 스타일: 첫 화면 · 흐르는 띠 · 타입 · 펭도리빵 · 마무리 · 푸터 · 가이드
+   ========================================================= */
+
+/* ===== 첫 화면 (어두운 배경 + 거대한 제목) ===== */
+.hero {
+  position: relative;
+  overflow: hidden;
+  min-height: calc(100vh - var(--topbar-h));
+  min-height: calc(100svh - var(--topbar-h));
+  display: grid;
+  place-items: center;
+  padding: 80px 24px 120px;
+  background: var(--dark);
+  color: #f4f4f4;
+}
+
+/* 뒤에서 천천히 도는 거대한 몬스터볼 윤곽 */
+.hero-ball {
+  position: absolute;
+  right: -14vmax;
+  top: 50%;
+  width: 70vmax;
+  height: 70vmax;
+  margin-top: -35vmax;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, .07);
+  background:
+    radial-gradient(circle, transparent 0 9%, rgba(255, 255, 255, .07) 9% 9.4%, transparent 9.4% 15%, rgba(255, 255, 255, .07) 15% 15.4%, transparent 15.4%),
+    linear-gradient(transparent 48.6%, rgba(255, 255, 255, .07) 48.6% 51.4%, transparent 51.4%);
+  animation: spinBall 60s linear infinite;
+  pointer-events: none;
+}
+@keyframes spinBall { to { transform: rotate(360deg); } }
+
+.hero-title {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(52px, 10.4vw, 176px);
+  line-height: .9;
+  letter-spacing: -.005em;
+  text-transform: uppercase;
+  text-align: center;
+}
+.line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0 .22em;
+}
+.line + .line { margin-top: .04em; padding-left: .5em; }
+
+/* 단어가 아래에서 올라오며 나타남 */
+.w { display: inline-block; overflow: hidden; padding: 0 .08em .04em 0; }
+.w > span {
+  display: inline-block;
+  transform: translateY(110%);
+  animation: rise .9s cubic-bezier(.2, .8, .2, 1) forwards;
+}
+.line:nth-child(1) .w:nth-child(1) > span { animation-delay: .05s; }
+.line:nth-child(1) .w:nth-child(2) > span { animation-delay: .18s; }
+.line:nth-child(2) .w:nth-child(1) > span { animation-delay: .32s; }
+.line:nth-child(2) .w:nth-child(3) > span { animation-delay: .5s; }
+@keyframes rise { to { transform: none; } }
+.it { font-style: italic; }
+
+/* 포켓몬 로고처럼: 노란 글자 + 파란 테두리 */
+.logo-word > span {
+  color: var(--yellow);
+  -webkit-text-stroke: .045em var(--blue);
+  paint-order: stroke fill;
+  text-shadow: .05em .06em 0 var(--navy);
+}
+
+/* 제목 속 비스듬한 그림 칸 (펼쳐지며 등장) */
+.media {
+  display: inline-block;
+  width: 0;
+  height: .8em;
+  transform: skewX(-12deg);
+  overflow: hidden;
+  border-radius: .06em;
+  animation: openMedia 1s cubic-bezier(.2, .8, .2, 1) .45s forwards;
+}
+@keyframes openMedia { to { width: 1.55em; } }
+.media-inner { display: block; width: 100%; height: 100%; transform: skewX(12deg) scale(1.25); }
+.media-inner img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 35%; display: block; }
+
+.hero-caption {
+  position: absolute;
+  left: 28px;
+  bottom: 28px;
+  z-index: 1;
+  max-width: 640px;
+  font-size: clamp(15px, 1.5vw, 19px);
+  color: rgba(255, 255, 255, .85);
+}
+.hero-caption strong { color: var(--yellow); }
+.hero-caption .route-tag { display: flex; width: max-content; margin-bottom: 10px; }
+.hero-down {
+  position: absolute;
+  right: 28px;
+  bottom: 24px;
+  z-index: 1;
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  border: 1.5px solid rgba(255, 255, 255, .6);
+  color: #fff;
+  font-size: 20px;
+  text-decoration: none;
+  transition: background .2s, color .2s;
+}
+.hero-down:hover { background: var(--yellow); color: var(--navy); border-color: var(--yellow); }
+
+/* ===== 흐르는 띠 ===== */
+.marquee {
+  overflow: hidden;
+  background: var(--yellow);
+  border-top: 3px solid var(--dark);
+  border-bottom: 3px solid var(--dark);
+  color: var(--navy);
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 32s linear infinite;
+}
+.marquee-track span {
+  display: inline-flex;
+  align-items: center;
+  gap: 22px;
+  padding: 14px 22px;
+  font-family: var(--display);
+  font-size: clamp(22px, 2.6vw, 34px);
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+.marquee-track img { width: 46px; height: 46px; object-fit: contain; margin: -8px 0; }
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+/* ===== 타입별 AI ===== */
+.types { padding: 110px 0 100px; background: var(--paper); }
+.type-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+.type-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 230px;
+  padding: 20px 22px;
+  border: 3px solid var(--dark);
+  border-radius: 22px;
+  background: var(--tc);
+  color: #fff;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 6px 6px 0 var(--dark);
+  transition: transform .2s, box-shadow .2s;
+}
+.type-card:hover { transform: translate(-3px, -3px) rotate(-1deg); box-shadow: 9px 9px 0 var(--dark); }
+.type-card::after {
+  /* 오른쪽 아래 몬스터볼 무늬 */
+  content: "";
+  position: absolute;
+  right: -40px;
+  bottom: -40px;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  border: 16px solid rgba(255, 255, 255, .22);
+  background: linear-gradient(transparent 44%, rgba(255, 255, 255, .22) 44% 56%, transparent 56%);
+}
+.type-top { position: relative; z-index: 1; display: flex; align-items: center; }
+.type-poke {
+  position: absolute;
+  right: -6px;
+  top: 50%;
+  z-index: 1;
+  width: 190px;
+  height: 190px;
+  object-fit: contain;
+  translate: 0 -50%;
+  filter: drop-shadow(4px 6px 0 rgba(0, 0, 0, .2));
+  transition: transform .3s;
+}
+.type-card:hover .type-poke { transform: scale(1.08) rotate(-4deg); }
+.type-label {
+  padding: 3px 12px;
+  border-radius: 999px;
+  border: 2px solid #fff;
+  background: rgba(0, 0, 0, .18);
+  font-weight: 800;
+  font-size: 14px;
+}
+.type-name {
+  position: relative;
+  z-index: 2;
+  display: block;
+  font-family: var(--display);
+  font-size: clamp(30px, 3.4vw, 44px);
+  line-height: 1;
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, .25);
+}
+.type-count { position: relative; z-index: 2; display: block; margin-top: 6px; font-weight: 700; font-size: 15px; opacity: .95; }
+.type-card.is-empty .type-count { opacity: .8; }
+
+/* ===== 펭도리빵 소개 (포켓몬 배틀 화면 느낌) ===== */
+.about { padding: 100px 0; background: var(--cream); }
+.about-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: center;
+}
+.about-text h2 {
+  margin-top: 16px;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(40px, 5.2vw, 76px);
+  line-height: 1.02;
+}
+.about-text h2 em { font-style: italic; color: var(--blue); }
+.about-text p { margin-top: 18px; max-width: 520px; font-size: 17px; color: var(--text-sub); }
+.about-actions { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 30px; }
+
+.about-stage {
+  position: relative;
+  height: 520px;
+  border: 3px solid var(--dark);
+  border-radius: 26px;
+  overflow: hidden;
+  background: linear-gradient(180deg, #a8dcff 0%, #dff2ff 55%, #b9e38f 55%, #8fcf5f 100%);
+  box-shadow: 8px 8px 0 var(--dark);
+}
+.stage-ground {
+  /* 포켓몬이 서 있는 원형 발판 */
+  position: absolute;
+  left: 50%;
+  bottom: 120px;
+  width: 300px;
+  height: 70px;
+  translate: -50% 0;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, #e9f7d8 0 50%, #a6d77a 70%, transparent 71%);
+  box-shadow: inset 0 -6px 0 rgba(0, 0, 0, .08);
+}
+.about-mascot {
+  position: absolute;
+  left: 50%;
+  bottom: 140px;
+  width: 230px;
+  height: auto;
+  translate: -50% 0;
+  filter: drop-shadow(0 10px 8px rgba(0, 0, 0, .2));
+  animation: hop 2.8s ease-in-out infinite;
+}
+@keyframes hop {
+  0%, 70%, 100% { transform: translateY(0); }
+  80% { transform: translateY(-16px); }
+  90% { transform: translateY(0); }
+}
+/* 게임 대화창 */
+.game-box {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 14px;
+  padding: 16px 20px;
+  border-radius: 14px;
+  background: #fff;
+  border: 4px solid #3b3f58;
+  box-shadow: inset 0 0 0 3px #fff, inset 0 0 0 6px #8fb7e8;
+  font-size: 18px;
+  font-weight: 700;
+  min-height: 84px;
+}
+.game-arrow {
+  position: absolute;
+  right: 16px;
+  bottom: 10px;
+  color: var(--red);
+  font-size: 14px;
+  animation: blink 1s steps(1) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* ===== 마무리 배너 ===== */
+.cta {
+  position: relative;
+  overflow: hidden;
+  padding: 100px 0;
+  background: var(--red);
+  color: #fff;
+}
+.cta::before {
+  /* 아래쪽 흰 반원 = 몬스터볼 */
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 62%;
+  width: 160vmax;
+  height: 160vmax;
+  translate: -50% 0;
+  border-radius: 50%;
+  background: #fff;
+  border-top: 22px solid var(--dark);
+  opacity: .1;
+}
+.cta-inner { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 30px; flex-wrap: wrap; }
+.cta h2 {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(56px, 9vw, 140px);
+  line-height: .9;
+  text-transform: uppercase;
+}
+.cta h2 em {
+  font-style: italic;
+  color: var(--yellow);
+  -webkit-text-stroke: .03em var(--navy);
+  paint-order: stroke fill;
+}
+.cta-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+.cta-team { display: flex; align-items: flex-end; }
+.cta-team img {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  margin-left: -26px;
+  filter: drop-shadow(4px 6px 0 rgba(0, 0, 0, .25));
+  animation: hop 2.8s ease-in-out infinite;
+}
+.cta-team img:first-child { margin-left: 0; }
+.cta-team img:nth-child(2) { animation-delay: .25s; }
+.cta-team img:nth-child(3) { animation-delay: .5s; }
+.cta-team img:nth-child(4) { animation-delay: .75s; }
+
+/* ===== 푸터 ===== */
+.footer { padding: 70px 0 28px; background: var(--dark); color: #d6d6dc; }
+.footer-cols { display: flex; gap: 60px; flex-wrap: wrap; }
+.footer-cols div { display: flex; flex-direction: column; gap: 6px; font-size: 15px; }
+.footer-cols h4 { font-family: var(--display); font-weight: 800; font-size: 18px; color: var(--yellow); margin-bottom: 4px; }
+.footer-cols a { color: #d6d6dc; text-decoration: none; }
+.footer-cols a:hover { color: #fff; }
+.footer-giant {
+  margin: 40px 0 20px;
+  font-family: var(--display);
+  font-size: clamp(90px, 22vw, 340px);
+  line-height: .85;
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(255, 255, 255, .5);
+  white-space: nowrap;
+  text-align: center;
+}
+.footer-copy {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, .15);
+  font-size: 13.5px;
+  color: #8d8d96;
+}
+
+/* ===== 몬스터볼 버튼 + 게임 대화창 가이드 ===== */
+.ball-fab {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 46;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, .3));
+  opacity: 0;
+  transform: translateY(30px) scale(.6);
+  pointer-events: none;
+  transition: opacity .3s, transform .4s cubic-bezier(.3, 1.6, .5, 1);
+}
+.ball-fab.show { opacity: 1; transform: none; pointer-events: auto; }
+.ball-fab:hover .pokeball { animation: wobble .6s ease; }
+
+.guide {
+  position: fixed;
+  left: 50%;
+  bottom: 22px;
+  z-index: 60;
+  width: min(760px, calc(100vw - 32px));
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  padding: 18px 20px 16px;
+  border-radius: 16px;
+  background: #fff;
+  border: 4px solid #3b3f58;
+  box-shadow: inset 0 0 0 3px #fff, inset 0 0 0 6px #8fb7e8, 0 20px 50px rgba(0, 0, 0, .35);
+  translate: -50% 30px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s, translate .3s cubic-bezier(.3, 1.4, .5, 1);
+}
+.guide.open { translate: -50% 0; opacity: 1; pointer-events: auto; }
+.guide-ball { width: 44px; height: 44px; align-self: flex-start; margin-top: 4px; box-shadow: none; }
+.guide-body { flex: 1; min-width: 0; }
+.guide-name {
+  display: inline-block;
+  padding: 2px 12px;
+  border-radius: 999px;
+  background: var(--blue);
+  color: #fff;
+  font-weight: 800;
+  font-size: 13px;
+}
+.guide-text { margin-top: 6px; min-height: 3.4em; font-size: 17px; font-weight: 700; line-height: 1.6; white-space: pre-line; }
+.guide-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
+.guide-dots { display: flex; gap: 6px; }
+.guide-dots span { width: 9px; height: 9px; border-radius: 50%; background: #d6d9e4; transition: all .3s; }
+.guide-dots span.on { background: var(--red); transform: scale(1.3); }
+.guide-next {
+  height: 36px;
+  padding: 0 16px;
+  border: 2.5px solid var(--line);
+  border-radius: 999px;
+  background: var(--yellow);
+  color: var(--navy);
+  font-weight: 800;
+  font-size: 14px;
+  cursor: pointer;
+}
+.guide-close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-sub);
+  cursor: pointer;
+}
+.guide-close:hover { background: #eef0f6; }
+
+/* ===== 반응형 ===== */
+@media (max-width: 1000px) {
+  .type-grid { grid-template-columns: repeat(2, 1fr); }
+  .about-inner { grid-template-columns: 1fr; }
+  .about-stage { height: 460px; }
+}
+@media (max-width: 640px) {
+  .hero { padding: 60px 16px 140px; }
+  .line + .line { padding-left: 0; }
+  .hero-caption { left: 18px; right: 90px; bottom: 22px; }
+  .hero-down { right: 18px; bottom: 20px; width: 48px; height: 48px; }
+  .type-grid { grid-template-columns: 1fr; }
+  .type-card { min-height: 180px; }
+  .type-poke { width: 140px; height: 140px; }
+  .cta-team img { width: 86px; height: 86px; margin-left: -18px; }
+  .about-stage { height: 420px; }
+  .about-mascot { width: 180px; }
+  .guide { padding: 14px 14px 12px; }
+  .guide-text { font-size: 15px; }
+  .ball-fab { right: 14px; bottom: 14px; }
+  .pokeball.big { width: 54px; height: 54px; }
+}
